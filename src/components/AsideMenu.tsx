@@ -37,7 +37,7 @@ const AsideMenu = ({
   const links = [
     {
       text: "Dashboard",
-      href: "/",
+      href: "/dashboard",
       active: true,
     },
     {

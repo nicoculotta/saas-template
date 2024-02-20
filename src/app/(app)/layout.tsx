@@ -19,7 +19,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
         <AsideMenu isOpen={isMenuOpen} setIsMenuOpen={handleMenu} />
         <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
           <AppMenu onClick={handleMenu} />
-          {children}
+          <div className="flex-1 p-6 md:p-8 md:pt-6">{children}</div>
         </div>
       </div>
     </div>

@@ -19,7 +19,9 @@ const AppMenu = ({ onClick }: { onClick: () => void }) => {
               <Castle /> Saas Template
             </span>
           </Link>
-          <UserAvatar />
+          <Link href="/profile">
+            <UserAvatar />
+          </Link>
         </div>
       </header>
     </>
