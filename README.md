@@ -2,6 +2,5 @@
 
 WIP
 
-- Authentication
-- Firebase login functions
-- Basic UI: Login, Register, Profile and Dashboard page
+- Autenticar y crear usuarios, login with google & con email
+- Roles: free y premium

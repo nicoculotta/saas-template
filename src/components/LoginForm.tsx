@@ -6,15 +6,20 @@ import { Brain, Loader } from "lucide-react";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { useState } from "react";
+import { useAuth } from "@/context/authContext";
 
 interface LoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function LoginForm({ className, ...props }: LoginFormProps) {
+  const { signInEmailAndPassword } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
     setIsLoading(true);
+    signInEmailAndPassword(email, password);
 
     setTimeout(() => {
       setIsLoading(false);
@@ -37,12 +42,29 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
               autoComplete="email"
               autoCorrect="off"
               disabled={isLoading}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <Button disabled={isLoading}>
+          <div className="grid gap-1">
+            <Label className="sr-only" htmlFor="email">
+              Contraseña
+            </Label>
+            <Input
+              id="password"
+              placeholder="******"
+              type="password"
+              disabled={isLoading}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <Button disabled={isLoading} type="submit">
             {isLoading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
-            Entrar con email
+            Entrar
           </Button>
+          <p className="text-muted-foreground text-xs text-center">
+            Te enviaremos un email para que puedas acceder
+          </p>
         </div>
       </form>
       <div className="relative">
