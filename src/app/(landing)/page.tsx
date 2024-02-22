@@ -1,8 +1,11 @@
+"use client";
 import { buttonVariants } from "@/components/ui/button";
+import { useAuth } from "@/context/authContext";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 export default function LandingPage() {
+  const { user } = useAuth();
   return (
     <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
       <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
@@ -14,9 +17,20 @@ export default function LandingPage() {
           Shadcn, Firebase, Stripe
         </p>
         <div>
-          <Link href="/login" className={cn(buttonVariants({ size: "lg" }))}>
-            Entrar
-          </Link>
+          {user ? (
+            <Link
+              href="/dashboard"
+              className={cn(
+                buttonVariants({ size: "lg", variant: "secondary" })
+              )}
+            >
+              Acceder como {user.name}
+            </Link>
+          ) : (
+            <Link href="/login" className={cn(buttonVariants({ size: "lg" }))}>
+              Entrar
+            </Link>
+          )}
         </div>
       </div>
     </section>

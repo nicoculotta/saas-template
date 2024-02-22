@@ -29,7 +29,7 @@ export default function RegisterPage() {
               Crear una cuenta
             </h1>
             <p className="text-sm text-muted-foreground">
-              Pon tu email para crear una cuenta
+              Pon tu email para registrar una nueva cuenta
             </p>
           </div>
           <RegisterForm />

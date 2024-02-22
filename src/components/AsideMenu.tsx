@@ -1,4 +1,5 @@
 "use client";
+import { useAuth } from "@/context/authContext";
 import { cn } from "@/lib/utils";
 import { Castle } from "lucide-react";
 import Link from "next/link";
@@ -34,6 +35,7 @@ const AsideMenu = ({
   isOpen: boolean;
   setIsMenuOpen: () => void;
 }) => {
+  const { logOut } = useAuth();
   const links = [
     {
       text: "Dashboard",
@@ -78,6 +80,12 @@ const AsideMenu = ({
           <UserAvatar className="w-8 h-8" />
           <span>User Name</span>
         </Link>
+        <button
+          className="border-t-2 p-6 bg-background/60"
+          onClick={() => logOut()}
+        >
+          Cerrar Sesión
+        </button>
       </aside>
       <div
         onClick={setIsMenuOpen}

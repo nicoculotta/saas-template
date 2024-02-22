@@ -11,15 +11,16 @@ import { useAuth } from "@/context/authContext";
 interface RegisterFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function RegisterForm({ className, ...props }: RegisterFormProps) {
-  const { signUpEmailAndPassword } = useAuth();
+  const { registerWithEmailAndPassword } = useAuth();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
     setIsLoading(true);
-    signUpEmailAndPassword(email, password);
+    registerWithEmailAndPassword(email, password, name);
 
     setTimeout(() => {
       setIsLoading(false);
@@ -30,6 +31,18 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
     <div className={cn("grid gap-6", className)} {...props}>
       <form onSubmit={onSubmit}>
         <div className="grid gap-2">
+          <div className="grid gap-1">
+            <Label className="sr-only" htmlFor="email">
+              Nombre y Apellido
+            </Label>
+            <Input
+              id="name"
+              placeholder="Nombre Completo"
+              type="text"
+              disabled={isLoading}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
               Email

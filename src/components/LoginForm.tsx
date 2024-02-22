@@ -11,7 +11,7 @@ import { useAuth } from "@/context/authContext";
 interface LoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function LoginForm({ className, ...props }: LoginFormProps) {
-  const { signInEmailAndPassword } = useAuth();
+  const { loginWithEmailAndPassword } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -19,7 +19,7 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
     setIsLoading(true);
-    signInEmailAndPassword(email, password);
+    loginWithEmailAndPassword(email, password);
 
     setTimeout(() => {
       setIsLoading(false);
