@@ -12,8 +12,6 @@ const LoginPageWrapper = () => {
   const router = useRouter();
   const { user, loading } = useAuth();
 
-  console.log(loading);
-
   useEffect(() => {
     if (user) {
       router.push("/dashboard");

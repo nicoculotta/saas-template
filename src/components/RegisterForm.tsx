@@ -2,29 +2,47 @@
 
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
-import { Brain, Loader } from "lucide-react";
+import { Brain, Loader, XCircle } from "lucide-react";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { useState } from "react";
 import { useAuth } from "@/context/authContext";
+import useEmailValidation from "@/hooks/useEmailValidation";
+import usePasswordValidation from "@/hooks/usePasswordValidation";
+import useNameValidation from "@/hooks/useNameValidation";
+import Image from "next/image";
+import googleIcon from "../assets/icon-google.svg";
 
 interface RegisterFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function RegisterForm({ className, ...props }: RegisterFormProps) {
-  const { registerWithEmailAndPassword } = useAuth();
+  const {
+    registerWithEmailAndPassword,
+    loading,
+    formRegisterError,
+    signInWithGoogle,
+  } = useAuth();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { name, nameError, handleNameChange, handleNameValidation } =
+    useNameValidation();
+  const { email, emailError, handleEmailChange, handleEmailValidation } =
+    useEmailValidation();
+  const {
+    password,
+    passwordError,
+    handlePasswordChange,
+    handlePasswordValidation,
+  } = usePasswordValidation();
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
-    setIsLoading(true);
     registerWithEmailAndPassword(email, password, name);
+  }
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
+  function areFormFieldsValid() {
+    return nameError === "" && emailError === "" && passwordError === ""
+      ? true
+      : false;
   }
 
   return (
@@ -39,9 +57,16 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
               id="name"
               placeholder="Nombre Completo"
               type="text"
-              disabled={isLoading}
-              onChange={(e) => setName(e.target.value)}
+              disabled={loading}
+              onChange={handleNameChange}
+              onBlur={handleNameValidation}
+              value={name}
             />
+            {nameError && (
+              <p className="text-destructive text-xs flex items-center gap-1 mb-2">
+                <XCircle size={16} /> {nameError}
+              </p>
+            )}
           </div>
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
@@ -54,9 +79,16 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
-              disabled={isLoading}
-              onChange={(e) => setEmail(e.target.value)}
+              disabled={loading}
+              onChange={handleEmailChange}
+              onBlur={handleEmailValidation}
+              value={email}
             />
+            {emailError && (
+              <p className="text-destructive text-xs flex items-center gap-1 mb-2">
+                <XCircle size={16} /> {emailError}
+              </p>
+            )}
           </div>
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
@@ -66,14 +98,25 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
               id="password"
               placeholder="******"
               type="password"
-              disabled={isLoading}
-              onChange={(e) => setPassword(e.target.value)}
+              disabled={loading}
+              onChange={handlePasswordChange}
+              onBlur={handlePasswordValidation}
             />
+            {passwordError && (
+              <p className="text-destructive text-xs flex items-center gap-1 mb -2">
+                <XCircle size={16} /> {passwordError}
+              </p>
+            )}
           </div>
-          <Button disabled={isLoading} type="submit">
-            {isLoading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
-            Crear una cuenta
+          <Button disabled={!areFormFieldsValid() || loading} type="submit">
+            {loading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
+            Entrar
           </Button>
+          {formRegisterError && (
+            <p className="text-destructive text-xs flex items-center gap-1 mt-1">
+              <XCircle size={16} /> {formRegisterError}
+            </p>
+          )}
         </div>
       </form>
       <div className="relative">
@@ -86,11 +129,22 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
           </span>
         </div>
       </div>
-      <Button variant="outline" type="button" disabled={isLoading}>
-        {isLoading ? (
+      <Button
+        variant="outline"
+        type="button"
+        disabled={loading}
+        onClick={() => signInWithGoogle()}
+      >
+        {loading ? (
           <Loader className="mr-2 h-4 w-4 animate-spin" />
         ) : (
-          <Brain className="mr-2 h-4 w-4" />
+          <Image
+            className="mr-2"
+            src={googleIcon}
+            width={20}
+            height={20}
+            alt="google icon"
+          />
         )}{" "}
         Cuenta de Google
       </Button>

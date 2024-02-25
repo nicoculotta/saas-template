@@ -6,6 +6,8 @@ import {
   sendEmailVerification,
   signInWithEmailAndPassword,
   updateProfile,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import {
@@ -37,7 +39,10 @@ interface useProvideAuthProps {
     name: string
   ) => Promise<void>;
   loginWithEmailAndPassword: (email: string, password: string) => Promise<void>;
+  signInWithGoogle: () => Promise<void>;
   logOut: () => Promise<void>;
+  formLoginError: string;
+  formRegisterError: string;
 }
 
 const AuthContext = createContext<any>(null);
@@ -46,20 +51,19 @@ function useProvideAuth(): useProvideAuthProps {
   const router = useRouter();
   const [user, setUser] = useState<iUser | null>(null);
   const [loading, setLoading] = useState(true);
+  const [formLoginError, setFormLoginError] = useState("");
+  const [formRegisterError, setFormRegisterError] = useState("");
 
   const handleUser = (rawUser: any) => {
-    console.log({ rawUser });
-
     if (rawUser) {
       const user = formatUser(rawUser);
 
       createUser(user.uid, user);
-      setLoading(false);
       setUser(user);
-    } else {
       setLoading(false);
+    } else {
       setUser(null);
-      return false;
+      setLoading(false);
     }
   };
 
@@ -68,6 +72,7 @@ function useProvideAuth(): useProvideAuthProps {
     password: string,
     name: string
   ) => {
+    setFormRegisterError("");
     setLoading(true);
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -84,17 +89,31 @@ function useProvideAuth(): useProvideAuthProps {
       }
       setLoading(false);
     } catch (error) {
+      setFormRegisterError("Error al registrar el usuario, intente más tarde");
       setLoading(false);
       console.error("Error al registrar usuario:", error);
     }
   };
 
   const loginWithEmailAndPassword = async (email: string, password: string) => {
+    setFormLoginError("");
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      setFormLoginError("Email o contraseña no son validos");
+      console.error(error);
+    }
+  };
+
+  const signInWithGoogle = async () => {
+    setLoading(true);
+    try {
+      const res = await signInWithPopup(auth, new GoogleAuthProvider());
+      handleUser(res.user);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -114,8 +133,11 @@ function useProvideAuth(): useProvideAuthProps {
   return {
     user,
     loading,
+    formLoginError,
+    formRegisterError,
     registerWithEmailAndPassword,
     loginWithEmailAndPassword,
+    signInWithGoogle,
     logOut,
   };
 }

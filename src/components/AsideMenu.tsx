@@ -3,7 +3,9 @@ import { useAuth } from "@/context/authContext";
 import { cn } from "@/lib/utils";
 import { Castle } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import { usePathname } from "next/navigation";
+import React, { useEffect } from "react";
+import { ModeToggle } from "./ModeToggle";
 import UserAvatar from "./UserAvatar";
 
 interface MenuLinkProps {
@@ -17,7 +19,7 @@ const MenuLink = ({ text, href, active }: MenuLinkProps) => {
     <Link
       href={href}
       className={cn(
-        "relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium duration-300 ease-in-out",
+        "relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium duration-300 ease-in-out hover:bg-background",
         active ? "font-bold bg-background" : ""
       )}
     >
@@ -35,22 +37,24 @@ const AsideMenu = ({
   isOpen: boolean;
   setIsMenuOpen: () => void;
 }) => {
+  const pathname = usePathname();
+
   const { logOut } = useAuth();
   const links = [
     {
       text: "Dashboard",
       href: "/dashboard",
-      active: true,
+      active: pathname === "/dashboard",
     },
     {
       text: "Teams",
-      href: "/",
-      active: false,
+      href: "/teams",
+      active: pathname === "/teams",
     },
     {
       text: "Attendance",
       href: "/",
-      active: false,
+      active: pathname === "/attendance",
     },
   ];
 
@@ -68,6 +72,7 @@ const AsideMenu = ({
               <Castle /> Saas Template
             </span>
           </Link>
+          <ModeToggle />
         </div>
         <nav className="mt-5 px-4 py-4 md:mt-9 md:px-6 h-full">
           <ul className="mb-6 flex flex-col gap-1.5">

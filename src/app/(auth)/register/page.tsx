@@ -29,12 +29,12 @@ export default function RegisterPage() {
               Crear una cuenta
             </h1>
             <p className="text-sm text-muted-foreground">
-              Pon tu email para registrar una nueva cuenta
+              Completa el formulario para registrar una nueva cuenta
             </p>
           </div>
           <RegisterForm />
           <p className="px-8 text-center text-sm text-muted-foreground">
-            Cliquando en continuar, estas aceptando nuestros{" "}
+            Haciendo click en continuar, estas aceptando nuestros{" "}
             <Link
               href="/terms"
               className="hover:text-brand underline underline-offset-4"

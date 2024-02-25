@@ -2,28 +2,40 @@
 
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
-import { Brain, Loader } from "lucide-react";
+import { Loader, XCircle } from "lucide-react";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { useState } from "react";
 import { useAuth } from "@/context/authContext";
+import useEmailValidation from "@/hooks/useEmailValidation";
+import usePasswordValidation from "@/hooks/usePasswordValidation";
+import Image from "next/image";
+import googleIcon from "../assets/icon-google.svg";
 
 interface LoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function LoginForm({ className, ...props }: LoginFormProps) {
-  const { loginWithEmailAndPassword } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const {
+    loginWithEmailAndPassword,
+    formLoginError,
+    loading,
+    signInWithGoogle,
+  } = useAuth();
+  const { email, emailError, handleEmailChange, handleEmailValidation } =
+    useEmailValidation();
+  const {
+    password,
+    passwordError,
+    handlePasswordChange,
+    handlePasswordValidation,
+  } = usePasswordValidation();
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
-    setIsLoading(true);
     loginWithEmailAndPassword(email, password);
+  }
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
+  function areFormFieldsValid() {
+    return emailError === "" && passwordError === "" ? true : false;
   }
 
   return (
@@ -41,10 +53,16 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
-              disabled={isLoading}
+              disabled={loading}
+              onChange={handleEmailChange}
+              onBlur={handleEmailValidation}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
             />
+            {emailError && (
+              <p className="text-destructive text-xs flex items-center gap-1 mb-2">
+                <XCircle size={16} /> {emailError}
+              </p>
+            )}
           </div>
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
@@ -54,17 +72,25 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
               id="password"
               placeholder="******"
               type="password"
-              disabled={isLoading}
-              onChange={(e) => setPassword(e.target.value)}
+              disabled={loading}
+              onChange={handlePasswordChange}
+              onBlur={handlePasswordValidation}
             />
+            {passwordError && (
+              <p className="text-destructive text-xs flex items-center gap-1 mb -2">
+                <XCircle size={16} /> {passwordError}
+              </p>
+            )}
           </div>
-          <Button disabled={isLoading} type="submit">
-            {isLoading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
+          <Button disabled={!areFormFieldsValid() || loading} type="submit">
+            {loading && <Loader className="mr-2 h-4 w-4 animate-spin" />}
             Entrar
           </Button>
-          <p className="text-muted-foreground text-xs text-center">
-            Te enviaremos un email para que puedas acceder
-          </p>
+          {formLoginError && (
+            <p className="text-destructive text-xs flex items-center gap-1 mt-1">
+              <XCircle size={16} /> {formLoginError}
+            </p>
+          )}
         </div>
       </form>
       <div className="relative">
@@ -77,11 +103,22 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
           </span>
         </div>
       </div>
-      <Button variant="outline" type="button" disabled={isLoading}>
-        {isLoading ? (
+      <Button
+        variant="outline"
+        type="button"
+        disabled={loading}
+        onClick={() => signInWithGoogle()}
+      >
+        {loading ? (
           <Loader className="mr-2 h-4 w-4 animate-spin" />
         ) : (
-          <Brain className="mr-2 h-4 w-4" />
+          <Image
+            className="mr-2"
+            src={googleIcon}
+            width={20}
+            height={20}
+            alt="google icon"
+          />
         )}{" "}
         Cuenta de Google
       </Button>
