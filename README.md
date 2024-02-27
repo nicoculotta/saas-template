@@ -2,9 +2,12 @@
 
 BACKLOG
 
-- Luego de crear cuenta te tiene q decir q te enviaron un mail para validar
-- Login: haz olvidado tu contraseña, Recuperar password puede ser un modal.
 - Landing: darle un poco de diseño, incluir navbar.
+
+27-02-2024
+
+- Login: haz olvidado tu contraseña, Recuperar password puede ser un modal.
+- Luego de crear cuenta te tiene q decir q te enviaron un mail para validar: pantalla de /welcome
 
 25-02-2024
 

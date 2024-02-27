@@ -1,4 +1,5 @@
 "use client";
+import { useToast } from "@/components/ui/use-toast";
 import { auth } from "@/lib/firebase";
 import { createUser } from "@/lib/firestore.utils";
 import {
@@ -8,6 +9,7 @@ import {
   updateProfile,
   GoogleAuthProvider,
   signInWithPopup,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import {
@@ -33,6 +35,7 @@ interface iUser {
 interface useProvideAuthProps {
   user: iUser | null;
   loading: boolean;
+  loadingGoogle: boolean;
   registerWithEmailAndPassword: (
     email: string,
     password: string,
@@ -43,6 +46,7 @@ interface useProvideAuthProps {
   logOut: () => Promise<void>;
   formLoginError: string;
   formRegisterError: string;
+  recoverPassword: (email: string) => Promise<void>;
 }
 
 const AuthContext = createContext<any>(null);
@@ -53,6 +57,8 @@ function useProvideAuth(): useProvideAuthProps {
   const [loading, setLoading] = useState(true);
   const [formLoginError, setFormLoginError] = useState("");
   const [formRegisterError, setFormRegisterError] = useState("");
+  const [loadingGoogle, setLoadingGoogle] = useState(false);
+  const { toast } = useToast();
 
   const handleUser = (rawUser: any) => {
     if (rawUser) {
@@ -88,6 +94,7 @@ function useProvideAuth(): useProvideAuthProps {
         });
       }
       setLoading(false);
+      router.push("/welcome");
     } catch (error) {
       setFormRegisterError("Error al registrar el usuario, intente más tarde");
       setLoading(false);
@@ -108,11 +115,12 @@ function useProvideAuth(): useProvideAuthProps {
   };
 
   const signInWithGoogle = async () => {
-    setLoading(true);
+    setLoadingGoogle(true);
     try {
       const res = await signInWithPopup(auth, new GoogleAuthProvider());
       handleUser(res.user);
     } catch (error) {
+      setLoadingGoogle(false);
       console.error(error);
     }
   };
@@ -124,6 +132,22 @@ function useProvideAuth(): useProvideAuthProps {
       .then(() => router.push("/"));
   };
 
+  const recoverPassword = async (email: string) => {
+    await sendPasswordResetEmail(auth, email)
+      .then(() => {
+        toast({
+          title: "Revisa tu email",
+          description: "Te hemos enviado un email de recuperación",
+        });
+      })
+      .catch((error) => {
+        toast({
+          title: "Ha ocurrido un error",
+          description: "Intentelo nuevamente",
+        });
+      });
+  };
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(handleUser);
 
@@ -133,11 +157,13 @@ function useProvideAuth(): useProvideAuthProps {
   return {
     user,
     loading,
+    loadingGoogle,
     formLoginError,
     formRegisterError,
     registerWithEmailAndPassword,
     loginWithEmailAndPassword,
     signInWithGoogle,
+    recoverPassword,
     logOut,
   };
 }

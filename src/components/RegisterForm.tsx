@@ -22,7 +22,6 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
     formRegisterError,
     signInWithGoogle,
   } = useAuth();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { name, nameError, handleNameChange, handleNameValidation } =
     useNameValidation();
   const { email, emailError, handleEmailChange, handleEmailValidation } =

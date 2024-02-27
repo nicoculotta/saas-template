@@ -10,6 +10,7 @@ import useEmailValidation from "@/hooks/useEmailValidation";
 import usePasswordValidation from "@/hooks/usePasswordValidation";
 import Image from "next/image";
 import googleIcon from "../assets/icon-google.svg";
+import { useState } from "react";
 
 interface LoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -18,6 +19,7 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
     loginWithEmailAndPassword,
     formLoginError,
     loading,
+    loadingGoogle,
     signInWithGoogle,
   } = useAuth();
   const { email, emailError, handleEmailChange, handleEmailValidation } =
@@ -106,10 +108,10 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
       <Button
         variant="outline"
         type="button"
-        disabled={loading}
+        disabled={loadingGoogle}
         onClick={() => signInWithGoogle()}
       >
-        {loading ? (
+        {loadingGoogle ? (
           <Loader className="mr-2 h-4 w-4 animate-spin" />
         ) : (
           <Image

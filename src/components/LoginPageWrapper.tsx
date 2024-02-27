@@ -1,21 +1,37 @@
 "use client";
 import { useAuth } from "@/context/authContext";
+import useEmailValidation from "@/hooks/useEmailValidation";
 import { cn } from "@/lib/utils";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, XCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { LoginForm } from "./LoginForm";
-import { buttonVariants } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
 
 const LoginPageWrapper = () => {
   const router = useRouter();
-  const { user, loading } = useAuth();
+  const { user, loading, recoverPassword } = useAuth();
+  const { email, emailError, handleEmailChange, handleEmailValidation } =
+    useEmailValidation();
 
   useEffect(() => {
     if (user) {
       router.push("/dashboard");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return (
@@ -40,6 +56,57 @@ const LoginPageWrapper = () => {
           </p>
         </div>
         <LoginForm />
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button
+              variant="link"
+              className="px-8 text-center text-sm text-muted-foreground"
+            >
+              ¿Olvidaste tu contraseña?
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Recuperar Contraseña</DialogTitle>
+              <DialogDescription>
+                Pon tu email para recuperar tu contraseña
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-1">
+              <Label className="sr-only" htmlFor="email">
+                Email
+              </Label>
+              <Input
+                id="email"
+                placeholder="name@example.com"
+                type="email"
+                autoCapitalize="none"
+                autoComplete="email"
+                autoCorrect="off"
+                disabled={loading}
+                onChange={handleEmailChange}
+                onBlur={handleEmailValidation}
+                value={email}
+              />
+              {emailError && (
+                <p className="text-destructive text-xs flex items-center gap-1 mb-2">
+                  <XCircle size={16} /> {emailError}
+                </p>
+              )}
+            </div>
+
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button
+                  onClick={() => recoverPassword(email)}
+                  disabled={emailError.length > 1}
+                >
+                  Enviar
+                </Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
         <p className="px-8 text-center text-sm text-muted-foreground">
           <Link
             href="/register"
