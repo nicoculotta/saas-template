@@ -5,7 +5,7 @@ export default function useNameValidation() {
   const [nameError, setNameError] = useState("");
 
   function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
-    setName(event.target.value.trim());
+    setName(event.target.value);
   }
 
   function handleNameValidation(event: FocusEvent<HTMLInputElement>) {
@@ -13,5 +13,5 @@ export default function useNameValidation() {
     setNameError(isEmpty ? "Debes indicar tu nombre" : "");
   }
 
-  return { name, nameError, handleNameChange, handleNameValidation };
+  return { name, setName, nameError, handleNameChange, handleNameValidation };
 }

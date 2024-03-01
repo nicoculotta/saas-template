@@ -33,10 +33,10 @@ export default function AppLayout({ children }: AppLayoutProps) {
     return null;
   } else {
     return (
-      <div className="min-h-screen">
+      <div className="min-h-screen no-scrollbar">
         <div className="flex">
           <AsideMenu isOpen={isMenuOpen} setIsMenuOpen={handleMenu} />
-          <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+          <div className="relative flex flex-1 flex-col">
             <AppMenu onClick={handleMenu} />
             <div className="flex-1 p-6 md:p-8 md:pt-6">{children}</div>
           </div>

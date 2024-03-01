@@ -18,6 +18,8 @@ import {
   ReactNode,
   useState,
   useEffect,
+  Dispatch,
+  SetStateAction,
 } from "react";
 
 interface iUser {
@@ -34,6 +36,7 @@ interface iUser {
 
 interface useProvideAuthProps {
   user: iUser | null;
+  setUser: Dispatch<SetStateAction<iUser | null>>;
   loading: boolean;
   loadingGoogle: boolean;
   registerWithEmailAndPassword: (
@@ -156,6 +159,7 @@ function useProvideAuth(): useProvideAuthProps {
 
   return {
     user,
+    setUser,
     loading,
     loadingGoogle,
     formLoginError,

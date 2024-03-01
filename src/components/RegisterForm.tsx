@@ -49,7 +49,7 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
       <form onSubmit={onSubmit}>
         <div className="grid gap-2">
           <div className="grid gap-1">
-            <Label className="sr-only" htmlFor="email">
+            <Label className="sr-only" htmlFor="name">
               Nombre y Apellido
             </Label>
             <Input

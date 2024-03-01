@@ -39,7 +39,7 @@ const AsideMenu = ({
 }) => {
   const pathname = usePathname();
 
-  const { logOut } = useAuth();
+  const { logOut, user } = useAuth();
   const links = [
     {
       text: "Dashboard",
@@ -81,9 +81,9 @@ const AsideMenu = ({
             ))}
           </ul>
         </nav>
-        <Link href="/profile" className="flex gap-4 items-center px-6 py-6">
+        <Link href="/profile" className="flex gap-3 items-center px-6 py-6">
           <UserAvatar className="w-8 h-8" />
-          <span>User Name</span>
+          <span>{user.name}</span>
         </Link>
         <button
           className="border-t-2 p-6 bg-background/60"
