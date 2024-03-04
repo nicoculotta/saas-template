@@ -62,7 +62,7 @@ const AsideMenu = ({
     <>
       <aside
         className={cn(
-          "absolute left-0 top-0 z-20 flex h-screen w-72 flex-col overflow-y-hidden duration-200 ease-out md:static md:translate-x-0  bg-secondary",
+          "absolute left-0 top-0 z-20 flex h-screen w-72 flex-col duration-200 ease-out md:static md:translate-x-0  bg-secondary",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >

@@ -66,7 +66,7 @@ export default function LandingPage() {
             <div className="flex h-[140px] flex-col justify-center rounded-md p-6">
               <div className="space-y-2">
                 <h3 className="font-bold">Firebase Auth</h3>
-                <p className="text-sm">
+                <p className="text-sm text-muted-foreground">
                   Firebase Auth, login, register, recover and validate user.
                 </p>
               </div>

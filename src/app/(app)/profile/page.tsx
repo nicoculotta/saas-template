@@ -19,8 +19,6 @@ const ProfilePage = () => {
             Here you can edit your user account.
           </p>
           <EditProfileForm />
-          <EditProfileForm />
-          <EditProfileForm />
         </div>
         <div>
           <h3 className="text-lg font-medium">Subscription</h3>

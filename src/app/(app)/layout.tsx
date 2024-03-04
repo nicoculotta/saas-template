@@ -2,6 +2,7 @@
 import AppMenu from "@/components/AppMenu";
 import AsideMenu from "@/components/AsideMenu";
 import { useAuth } from "@/context/authContext";
+import { cn } from "@/lib/utils";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -28,6 +29,12 @@ export default function AppLayout({ children }: AppLayoutProps) {
       router.push("/");
     }
   }, [user]);
+
+  useEffect(() => {
+    isMenuOpen
+      ? (document.body.style.overflowY = "hidden")
+      : (document.body.style.overflowY = "auto");
+  }, [isMenuOpen]);
 
   if (!user) {
     return null;

@@ -3,6 +3,17 @@
 BACKLOG
 
 - Landing: darle un poco de diseño, incluir navbar.
+- Cambiar imagen de avatar de usuario
+- Stripe, como hacer la conexion, pagina de success, webhook, guardar en db
+- Pagina de Pricing
+
+04-03-2024
+
+- Hay q acomodar los scrolls cuando tenes mas contenido, sidebar tiene q ser fixed o sticky. y el contenido si tener scroll
+
+29-02-2024
+
+- Pagina de perfil, editar nombre
 
 27-02-2024
 
