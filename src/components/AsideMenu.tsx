@@ -5,6 +5,7 @@ import { Castle } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
+import Logo from "./Logo";
 import { ModeToggle } from "./ModeToggle";
 import UserAvatar from "./UserAvatar";
 
@@ -62,16 +63,12 @@ const AsideMenu = ({
     <>
       <aside
         className={cn(
-          "absolute left-0 top-0 z-20 flex h-screen w-72 flex-col duration-200 ease-out md:static md:translate-x-0  bg-secondary",
+          "absolute left-0 top-0 z-20 flex h-screen w-72 flex-col duration-200 ease-out md:static md:translate-x-0 bg-secondary dark:bg-background-muted",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <div className="flex items-center justify-between gap-2 px-6 py-5 md:py-6">
-          <Link href="/">
-            <span className="flex gap-2 text-lg">
-              <Castle /> Saas Template
-            </span>
-          </Link>
+          <Logo />
           <ModeToggle />
         </div>
         <nav className="mt-5 px-4 py-4 md:mt-9 md:px-6 h-full">

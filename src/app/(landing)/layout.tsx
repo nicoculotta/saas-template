@@ -1,3 +1,4 @@
+import Logo from "@/components/Logo";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -12,6 +13,7 @@ export default function LandingLayout({
       <header className="container z-40 bg-background">
         <div className="flex h-20 items-center justify-between py-6">
           {/*  TODO: Navigation */}
+          <Logo />
           <nav>
             <Link
               href="/login"

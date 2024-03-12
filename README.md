@@ -3,9 +3,19 @@
 BACKLOG
 
 - Landing: darle un poco de diseño, incluir navbar.
-- Cambiar imagen de avatar de usuario
-- Stripe, como hacer la conexion, pagina de success, webhook, guardar en db
+- Stripe: falta, saber como guardar el usuario en la db si pago o no
+- Stripe: manegar la suscripcion, cancelarla
+- pagina /success
+
+12-03-2024
+
 - Pagina de Pricing
+- componente PricingCard
+- Conecte cuenta stripe, cargo productos y suscribo a cuenta premium
+
+05-03-2024
+
+- Cambiar imagen de avatar de usuario
 
 04-03-2024
 

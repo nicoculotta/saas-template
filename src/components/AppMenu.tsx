@@ -1,4 +1,5 @@
 "use client";
+import { useAuth } from "@/context/authContext";
 import { Castle, Menu } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";

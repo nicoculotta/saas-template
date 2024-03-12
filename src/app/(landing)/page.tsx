@@ -1,5 +1,8 @@
 "use client";
+import Princing from "@/components/Princing";
+import PrincingCard from "@/components/PrincingCard";
 import { buttonVariants } from "@/components/ui/button";
+import UserAvatar from "@/components/UserAvatar";
 import { useAuth } from "@/context/authContext";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -25,7 +28,9 @@ export default function LandingPage() {
                   buttonVariants({ size: "lg", variant: "secondary" })
                 )}
               >
-                Acceder como {user.name}
+                Acceder como
+                <UserAvatar className="h-7 w-7 mx-1" />
+                {user.name}
               </Link>
             ) : (
               <Link
@@ -38,10 +43,7 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-      <section
-        id="features"
-        className="space-y-6 bg-slate-50 py-8 dark:bg-transparent md:py-12 lg:py-24"
-      >
+      <section className="space-y-6 bg-slate-50 py-8 dark:bg-transparent md:py-12 lg:py-24">
         <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
           <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-5xl">
             Features
@@ -51,7 +53,7 @@ export default function LandingPage() {
             create saas products.
           </p>
         </div>
-        <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
+        <div className="mx-auto px-4 grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
           <div className="relative overflow-hidden rounded-lg border bg-background p-2">
             <div className="flex h-[140px] flex-col justify-center rounded-md p-6">
               <div className="space-y-2">
@@ -113,6 +115,7 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+      <Princing />
     </>
   );
 }
