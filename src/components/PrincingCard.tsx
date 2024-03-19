@@ -1,4 +1,5 @@
 "use client";
+import { useAuth } from "@/context/authContext";
 import { Check } from "lucide-react";
 import React from "react";
 import { Button } from "./ui/button";
@@ -18,6 +19,7 @@ const PrincingCard = ({
   currency: string;
   isFree?: boolean;
 }) => {
+  const { user } = useAuth();
   const priceFormatted = new Intl.NumberFormat("es-ES", {
     style: "currency",
     currency: currency,
@@ -32,6 +34,7 @@ const PrincingCard = ({
       },
       body: JSON.stringify({
         productId,
+        userId: user.uid,
       }),
     });
     const { url } = await res.json();
